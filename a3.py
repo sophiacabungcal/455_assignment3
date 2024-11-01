@@ -22,6 +22,7 @@ class CommandInterface:
         }
         self.board = [[None]]
         self.player = 1
+        self.patterns = []
     
     #===============================================================================================
     # VVVVVVVVVV START of PREDEFINED FUNCTIONS. DO NOT MODIFY. VVVVVVVVVV
@@ -266,8 +267,26 @@ class CommandInterface:
     
     # new function to be implemented for assignment 3
     def loadpatterns(self, args):
-        raise NotImplementedError("This command is not yet implemented.")
+        '''
+        Wipes old patterns, reads pattern file and saves
+        self.patterns as a list of tuples. Each tuple containing
+        (pattern, move, weight).
+        '''
+        if len(args) != 1: return False
+        self.patterns = []
+        file_path = args[0]
+
+        with open(file_path, 'r') as pfile:
+            for p in pfile:
+                # clean data
+                if p.startswith('#'): continue
+                p.strip()
+                
+                pattern, move, weight = p.split()
+                self.patterns.append((pattern, move, weight))
+                
         return True
+
     
     # new function to be implemented for assignment 3
     def policy_moves(self, args):
